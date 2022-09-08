@@ -1,6 +1,70 @@
 {
-  "rules": {
-    ".read": "now < 1664143200000",  // 2022-9-26
-    ".write": "now < 1664143200000",  // 2022-9-26
+    "rules": {
+      "freeSpawnPos": {
+        "$codePos": {
+          ".read": true,
+                 ".write": true,
+          ".validate": "newData.isBoolean()"
+        }
+      },
+        
+      "users": {
+        ".read": true,
+        ".write": "newData.hasChildren([auth.uid])",
+        "$userID": {
+          ".write": true,
+          ".validate": "newData.hasChildren(['timestamp', 'name'])",
+          "name": { ".validate": "newData.isString()" },
+          "timestamp": { ".validate": "newData.isNumber()" }
+        }
+      },
+        
+      "players": {
+        ".read": true,
+        ".write": "newData.hasChildren([auth.uid])",
+        "$userID": {
+          ".write": true,
+          ".validate": "newData.hasChildren(['color', 'direction', 'facing', 'name', 'score', 'x', 'y'])",
+          "color": { ".validate": "newData.isString()" },
+          "direction": { ".validate": "newData.isString()" },
+          "facing": { 
+            "0": { ".validate": "newData.isNumber()" },
+            "1": { ".validate": "newData.isNumber()" },
+            "$other": { ".validate": false }
+          },
+          "name": { ".validate": "newData.isString()" },
+          "score": { ".validate": "newData.isNumber()" },
+          "x": { ".validate": "newData.isNumber()" },
+          "y": { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": false }
+        }
+      },
+        
+      "lasers":{
+        ".read": true,
+          ".write": true,
+        "$id": {
+          ".validate": "newData.hasChildren(['color', 'direction', 'x', 'y'])",
+          "color": { ".validate": "newData.isString()" },
+          "direction": { ".validate": "newData.isString()" },
+          "x": { ".validate": "newData.isNumber()" },
+          "y": { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": false }
+        }
+      },
+        
+      "messages":{
+        ".read": true,
+          ".write": true,
+        "$id": {
+          ".validate": "newData.hasChildren(['color', 'content', 'id', 'name', 'time'])",
+          "color": { ".validate": "newData.isString()" },
+          "content": { ".validate": "newData.isString()" },
+          "id": { ".validate": "newData.isString() && auth.uid == newData.val()" },
+          "name": { ".validate": "newData.isString()" },
+          "time": { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": false }
+        }
+      }
+    }
   }
-}
