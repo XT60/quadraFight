@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" type="text/css" href="./css/styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/326bb83d6d.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div id="errorMessage" class="stdBorder">
+            <p>There already is a player in the game with either your nickname or your color.
+                Duplicated data must be changed before joining the game </p>
+            <button class="stdButton stdBorder">Got it</button>
+        </div>
+
+        <div id="playerData">
+            <div id="nameData">
+                <label for="nameInput"> Your Name: </label>
+                <input id="nameInput" class="stdBorder" type="text" maxlength="10" autocomplete="off" spellcheck="false">
+            </div>
+            <button id="colorButton" class="stdButton stdBorder" >Your color</button>
+            <button id="respawnButton" class="stdButton stdBorder" >Respawn</button>
+        </div>
+
+        <div id="gameWindow">
+            <section>
+                <div id="wrapper">
+                    <div id="map">
+                        <div class="player">
+                            <!-- <img id="arrow" width="7px" height="5px" src="./images/arrow.png">
+                            <span class=nameTag>NamE</span>
+                            <div class=playerSprite>
+                                <img src="./images/tanks.png">
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div id="chat">
+                    <form>
+                        <div id="overflowHandler">
+                            <ul> 
+                            </ul>
+                        </div>
+                        <div id="msgEdit">
+                            <input type="text" id="msgType" class="stdButton stdBorder" autocomplete="off">
+                            <input type="submit" id="msgSend" class="stdButton stdBorder" value="✔️" spellcheck="false">
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+        <div class="turnControls controls">
+            <button class="btnLeft" class="stdBorder stdButton">></button>
+            <button class="btnUp" class="stdBorder stdButton">></button>
+            <button class="btnRight" class="stdBorder stdButton">></button>
+            <button class="btnDown" class="stdBorder stdButton">></button>
+        </div>
+
+        <div class="actionControls controls">
+            <button class="btnUp" class="stdBorder stdButton">></button>
+            <button class="btnDown" class="stdBorder stdButton">></button>
+            <button class="btnFire" class="stdBorder stdButton">🔥</button>
+        </div>
+
+        <div id="mobileInfo" class="stdBorder">
+            <p>To play change your screen orientation<br>🔄</p>
+        </div>
+
+        <div id="pcInfo">
+            <button class="stdButton stdBorder">ℹ️</button>
+            <div id="popup" class="stdBorder">
+                <p>
+                <span id="header">Move Controlls:</span> <br>
+                <span id="b">W</span> - turn up ⬆️<br>
+                <span id="b">A</span> - turn left ⬅️<br>
+                <span id="b">S</span> - turn down ⬇️<br>
+                <span id="b">D</span> - turn right ➡️<br>
+                <span id="b">Space</span> - shoot laser 🔫<br>
+                <span id="b">ArrowUp</span> - move forwards ↕️<br>
+                <span id="b">ArrowDown</span> - move backwards ↕️<br>
+                </p>
+            </div>
+        </div>
+
+        <script type="module" src="./js/script.js"></script>
+    </body>
+</html>

@@ -1,0 +1,548 @@
+* {
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: pixelated;
+  -webkit-text-size-adjust: none;
+}
+
+html body {
+  background-color: #d8e1e9;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+#errorMessage {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  width: 40vw;
+  height: 20vw;
+  font-size: 2vw;
+  background-color: lightblue;
+}
+#errorMessage p {
+  margin: 5% 5%;
+  text-align: center;
+}
+#errorMessage button {
+  position: relative;
+  width: 20%;
+  font-size: inherit;
+  left: 40%;
+}
+
+#playerData {
+  margin: 0.4%;
+  display: flex;
+  flex-direction: row;
+}
+#playerData #nameData {
+  display: flex;
+  float: left;
+  flex-direction: column;
+  width: 20vw;
+  height: 6vw;
+}
+#playerData #nameData label {
+  font-size: 1.6vw;
+  font-weight: bold;
+}
+#playerData #nameData #nameInput {
+  flex: 1;
+  outline: 0;
+  width: 20vw;
+  height: 4vw;
+  box-sizing: border-box;
+  outline: 0;
+  padding: 4% 6%;
+  font-size: 3vw;
+  background-color: lightgrey;
+}
+#playerData #nameData #nameInput:hover {
+  border-color: rgb(89, 89, 89);
+}
+#playerData #colorButton {
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 10vw;
+  margin: 0 1vw;
+  font-size: 1.6vw;
+  font-weight: bold;
+  background-color: pink;
+}
+#playerData #respawnButton {
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 20vw;
+  margin: 0 1vw;
+  font-size: 1.6vw;
+  font-weight: bold;
+  float: right;
+}
+
+#gameWindow {
+  display: block;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 310px;
+  height: 113px;
+  padding: 0;
+  margin: 3vw 0;
+}
+#gameWindow section {
+  width: 100%;
+  height: 100%;
+  font-size: 2vw;
+  display: flex;
+  flex-direction: row;
+}
+#gameWindow section #wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  float: left;
+  top: 0;
+  left: 0;
+  width: 83%;
+  height: 100%;
+}
+#gameWindow section #wrapper #map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/gameMap.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#gameWindow section #wrapper #map .nameTag {
+  position: absolute;
+  left: 50%;
+  top: 27%;
+  font-weight: bold;
+  padding: 3% 7% 0% 7%;
+  border-radius: 40%;
+  background-color: rgb(87, 87, 87);
+  color: beige;
+  text-align: center;
+  transform: translate(-50%, 0);
+}
+#gameWindow section #wrapper #map .player {
+  position: absolute;
+  transition: transform 0.1s;
+  width: 13.3333333333%;
+  height: 28.5714285714%;
+  left: -3.3333333333%;
+  top: -14.2857142857%;
+}
+#gameWindow section #wrapper #map .player #arrow {
+  position: absolute;
+  z-index: 10;
+  top: 20%;
+  left: 50%;
+  width: 20%;
+  height: 15%;
+  transform: translate(-50%, 0);
+  -webkit-animation: arrowFade1 5s ease-in;
+          animation: arrowFade1 5s ease-in;
+}
+#gameWindow section #wrapper #map .playerSprite {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  left: 25%;
+  top: 50%;
+  overflow: hidden;
+}
+#gameWindow section #wrapper #map .playerSprite img {
+  position: relative;
+  width: 400%;
+  height: 400%;
+}
+#gameWindow section #wrapper #map .laser {
+  position: absolute;
+  width: 6.6666666667%;
+  height: 14.2857142857%;
+  overflow: hidden;
+  -webkit-animation: fadeOut 1s;
+          animation: fadeOut 1s;
+}
+#gameWindow section #wrapper #map .laser img {
+  position: relative;
+  width: 200%;
+  height: 400%;
+}
+#gameWindow #chat {
+  box-sizing: border-box;
+  border: 0.2vw solid rgb(87, 87, 87);
+  float: left;
+  background-color: grey;
+  width: 24%;
+  height: 100%;
+  flex-direction: column;
+  padding: 0;
+}
+#gameWindow #chat form {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#gameWindow #chat form ::-webkit-scrollbar {
+  width: 4px;
+}
+#gameWindow #chat form ::-webkit-scrollbar-thumb {
+  height: 10px;
+  background-color: rgb(7, 160, 5);
+  border-radius: 20px;
+  border: 0.7px solid black;
+}
+#gameWindow #chat form ::-webkit-scrollbar-thumb:hover {
+  background-color: green;
+}
+#gameWindow #chat form ::-webkit-scrollbar-track {
+  background: lightgrey;
+  border-radius: 20px;
+}
+#gameWindow #chat form #overflowHandler {
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 90%;
+  overflow-y: scroll;
+}
+#gameWindow #chat form #overflowHandler ul {
+  display: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  flex-direction: column;
+  list-style: none;
+  zoom: 0.5;
+  padding-left: 0;
+  text-align: left;
+}
+#gameWindow #chat form #overflowHandler ul li {
+  width: 100%;
+  padding: 0% 2% 2% 5%;
+  box-sizing: border-box;
+}
+#gameWindow #chat form #overflowHandler ul li p {
+  display: inline;
+  overflow-wrap: break-word;
+}
+#gameWindow #chat form #overflowHandler ul li .name {
+  display: inline;
+  font-weight: bold;
+  background-color: green;
+  border-radius: 0.7vw;
+  border: 0.3vw black solid;
+  padding: 0 0.4vw;
+}
+#gameWindow #chat form #msgEdit {
+  position: absolute;
+  display: flex;
+  padding: 0 0 1% 0;
+  box-sizing: border-box;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  zoom: 0.8;
+}
+#gameWindow #chat form #msgEdit input[type=text] {
+  box-sizing: content-box;
+  width: 85%;
+  outline: 0;
+  flex-grow: 1;
+  padding: 4% 6%;
+  background-color: lightgray;
+  zoom: 0.7;
+}
+
+#pcInfo {
+  margin: 0.4%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  width: 25vw;
+  height: 43vh;
+}
+#pcInfo button {
+  box-sizing: border-box;
+  font-size: 30px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 20%;
+  height: 20%;
+}
+#pcInfo div {
+  display: none;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 2.4vmin;
+  position: absolute;
+  z-index: 11;
+  background-color: #d8e1e9;
+  top: 20%;
+  right: 0;
+  width: 100%;
+  height: 80%;
+}
+#pcInfo div #b {
+  font-weight: bolder;
+  font-size: 2.7vmin;
+}
+#pcInfo div #header {
+  font-weight: bolder;
+  font-size: 3vmin;
+}
+#pcInfo div p {
+  padding: 3%;
+  margin: 0;
+}
+
+.controls {
+  display: none;
+}
+
+#mobileInfo {
+  display: none;
+}
+
+.player[data-direction=left] .playerSprite img {
+  left: -100%;
+}
+
+.player[data-direction=up] .playerSprite img {
+  left: -200%;
+}
+
+.player[data-direction=down] .playerSprite img {
+  left: -300%;
+}
+
+.player[data-color=yellow] .playerSprite img {
+  top: -100%;
+}
+
+.player[data-color=green] .playerSprite img {
+  top: -200%;
+}
+
+.player[data-color=purple] .playerSprite img {
+  top: -300%;
+}
+
+.laser[data-color=yellow] img {
+  top: -100%;
+}
+
+.laser[data-color=green] img {
+  top: -200%;
+}
+
+.laser[data-color=purple] img {
+  top: -300%;
+}
+
+.laser[data-direction=vertical] img {
+  left: -100%;
+}
+
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes arrowFade1 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes arrowFade1 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes arrowFade2 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes arrowFade2 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.stdButton {
+  border: 1px rgb(118, 117, 117) solid;
+  background-color: lightgray;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 3px;
+  font-size: inherit;
+}
+
+.stdButton:hover {
+  border-color: rgb(60, 60, 60);
+  background-color: rgb(170, 170, 170);
+}
+
+.stdBorder {
+  border: 0.3vw solid grey;
+  border-radius: 4px;
+}
+
+@media only screen and (max-height: 950px) and (orientation: portrait) {
+  #pcInfo {
+    display: none;
+  }
+  #gameWindow {
+    display: none;
+  }
+  #playerData {
+    display: none;
+  }
+  #mobileInfo {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    width: 80vw;
+    height: 30vh;
+    font-size: xx-large;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    border: 2px dashed black;
+  }
+  #mobileInfo p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    transform: translate(-50%, -50%);
+  }
+}
+@media only screen and (max-width: 950px) and (orientation: landscape) {
+  #pcInfo {
+    display: none;
+  }
+  #gameWindow {
+    margin: 1vw 0;
+    zoom: 0.75;
+  }
+  #playerData {
+    position: absolute;
+    bottom: 2%;
+    left: 52%;
+    width: 33vw;
+    height: 25vh;
+    transform: translate(-50%);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  #playerData #respawnButton {
+    height: 10vh;
+    margin: 2vw 0 0 0;
+  }
+  .controls {
+    display: block;
+    position: absolute;
+    width: 26%;
+    height: 36%;
+  }
+  .controls button {
+    position: absolute;
+    width: 30%;
+    height: 45%;
+    font-size: 3vw;
+    border-radius: 6px;
+  }
+  .turnControls {
+    left: 0;
+    bottom: 0;
+    margin: 0 0 5px 5px;
+  }
+  .turnControls .btnUp, .turnControls .btnDown {
+    left: 35.2%;
+  }
+  .turnControls .btnLeft, .turnControls .btnRight {
+    bottom: 25%;
+  }
+  .turnControls .btnUp {
+    transform: rotate(-90deg);
+    top: 0%;
+  }
+  .turnControls .btnDown {
+    transform: rotate(90deg);
+    bottom: 0%;
+  }
+  .turnControls .btnLeft {
+    transform: rotate(180deg);
+    left: 0%;
+  }
+  .turnControls .btnRight {
+    right: 0%;
+  }
+  .actionControls {
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 0 5px 5px 0;
+  }
+  .actionControls .btnUp, .actionControls .btnDown {
+    left: 35.2%;
+  }
+  .actionControls .btnUp {
+    transform: rotate(-90deg);
+    top: 0%;
+  }
+  .actionControls .btnDown {
+    transform: rotate(90deg);
+    bottom: 0%;
+  }
+  .actionControls .btnFire {
+    right: 0;
+    bottom: 28%;
+  }
+}

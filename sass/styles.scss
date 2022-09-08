@@ -1,0 +1,571 @@
+@use 'variables' as *;
+
+* { 
+    image-rendering: pixelated;
+    -webkit-text-size-adjust: none;
+}
+    
+html body{
+    background-color: #d8e1e9;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+#errorMessage{
+    display: none;
+    z-index: 1;
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    width: 40vw;
+    height: 20vw;
+    font-size: 2vw;
+    background-color: lightblue;
+
+    p{
+        margin: 5% 5%;
+        text-align: center;
+    }
+
+    button{
+        position: relative;
+        width: 20%;
+        font-size: inherit;
+        left: 40%;
+    }
+}
+
+
+#playerData{
+    margin: 0.4%;
+    display: flex;
+    flex-direction: row;
+
+    #nameData{
+        display: flex;
+        float: left;
+        flex-direction: column;
+        width: 20vw;
+        height: 6vw;
+    
+        label{
+            font-size: 1.6vw ;
+            font-weight: bold;
+        }
+    
+        #nameInput{
+            flex: 1;
+            outline: 0;
+            width: 20vw;
+            height: 4vw;
+            box-sizing: border-box;
+            outline: 0;
+            padding: 4% 6%;
+            font-size: 3vw;
+            background-color: lightgrey;
+        }
+    
+        #nameInput:hover{
+            border-color:rgb(89, 89, 89);
+        }
+    }
+
+    #colorButton{
+        box-sizing: border-box;
+        overflow: hidden;
+        width: 10vw;
+        margin: 0 1vw;
+        font-size: 1.6vw ;
+        font-weight: bold;  
+        background-color: pink;
+    }
+
+
+    #respawnButton{
+        box-sizing: border-box;
+        overflow: hidden;
+        width: 20vw;
+        margin: 0 1vw;
+        font-size: 1.6vw ;
+        font-weight: bold;  
+        float: right;
+    }
+}
+
+#gameWindow{
+    display: block;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 310px;
+    height: 113px;
+    padding: 0;
+    margin: 3vw 0;
+
+    section{
+        width: 100%;
+        height: 100%;
+        font-size: 2vw;
+        display: flex;
+        flex-direction: row;
+    
+        #wrapper{
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+            float: left;
+            top: 0;
+            left: 0;
+            width: 83%;
+            height: 100%;
+    
+            #map{
+                position: relative;
+                width: 100%;
+                height: 100%;
+                background-image: url("../images/gameMap.png");
+                background-repeat: no-repeat;
+                background-size: cover;
+    
+                .nameTag { 
+                    position: absolute;
+                    left: 50%;
+                    top: 27%;
+                    font-weight: bold;
+                    padding: 3% 7% 0% 7%;
+                    border-radius: 40%;
+                    background-color: rgb(87, 87, 87);
+                    color: beige;
+                    text-align: center;
+                    transform: translate(-50%, 0)
+                }
+                
+                .player{
+                    position: absolute;
+                    transition: transform 0.1s;
+                    width: calc(100% / 15 * 2);
+                    height: calc(100% / 7 * 2);
+                    left: calc(-100% / 15 / 2);
+                    top: calc(-100% / 7);
+
+                    #arrow{
+                        position:absolute;
+                        z-index: 10;
+                        top: 20%;
+                        left: 50%;
+                        width: 20%;
+                        height: 15%;
+                        transform: translate(-50%, 0);
+                        animation: arrowFade1 5s ease-in;
+                    }  
+                }
+                
+                .playerSprite{
+                    position: absolute;
+                    width: calc(100% / 2);
+                    height: calc(100% / 2);
+                    left: 25%;
+                    top: 50%;
+                    overflow: hidden;
+    
+                    img{
+                        position: relative;
+                        width: 400%;
+                        height: 400%;
+                    }
+                }
+            
+            
+                .laser{
+                    position: absolute;
+                    width: calc(100% / 15);
+                    height: calc(100% / 7);
+                    overflow: hidden;
+                    animation: fadeOut 1s;
+    
+                    img{
+                        position: relative;
+                        width: calc(200%);
+                        height: calc(400%);
+                    }
+                }
+            }
+        }
+    }
+
+    #chat{
+        box-sizing: border-box;
+        border: .2vw solid rgb(87,87,87);
+        float:left;
+        background-color: grey;
+        width: 24%;
+        height: 100%;
+        flex-direction: column;
+        padding: 0;
+        form{
+            position: relative;
+            width: 100%;
+            height: 100%;
+
+            ::-webkit-scrollbar{
+                width: 4px;
+            }
+
+            ::-webkit-scrollbar-thumb{
+                height: 10px;
+                background-color: rgb(7, 160, 5);
+                border-radius: 20px; 
+                border: 0.7px solid black
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: green; 
+            }
+
+            ::-webkit-scrollbar-track {
+                background: lightgrey; 
+                border-radius: 20px;
+            }
+
+            #overflowHandler{
+                position: relative;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 90%;
+                overflow-y: scroll;
+                
+                
+                ul{
+                    display: none;
+                    position: absolute;
+                    top: 0;
+                    width: 100%;
+                    flex-direction: column;
+                    list-style: none;
+                    zoom: 0.5;
+                    padding-left: 0;
+                    text-align: left;
+                    
+
+                    li {
+                        width: 100%;
+                        padding: 0% 2% 2% 5%;
+                        box-sizing: border-box;
+                        p{
+                            display: inline;
+                            overflow-wrap: break-word;
+                        }
+
+                        .name{
+                            display: inline;
+                            font-weight: bold;
+                            background-color: green;
+                            border-radius: 0.7vw;
+                            border: .3vw black solid;
+                            padding: 0 .4vw;
+                        }
+                    }
+
+                }
+            }
+
+            #msgEdit{
+                position: absolute;
+                display: flex;
+                padding: 0 0 1% 0;
+                box-sizing: border-box;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 10%;
+                
+                flex-direction: row;
+                flex-wrap: nowrap;
+                zoom: 0.8;
+                
+                input[type="text"]{
+                    box-sizing:content-box;
+                    width: 85%;
+                    outline: 0;
+                    flex-grow: 1;
+                    padding: 4% 6%;
+                    background-color: lightgray;
+                    zoom: 0.7;
+
+                }
+            }
+        }
+    }
+}
+
+#pcInfo{
+    margin: 0.4%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+    width: 25vw;
+    height: 43vh;
+
+    button{ 
+        box-sizing: border-box;
+        font-size: 30px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 20%;
+        height: 20%;
+    }
+
+    div{
+        display: none ;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 2.4vmin;
+        position: absolute;
+        z-index: 11;
+        background-color: #d8e1e9;
+        top: 20%;
+        right: 0;
+        width: 100%;
+        height: 80%;
+        #b{
+            font-weight: bolder;
+            font-size: 2.7vmin;
+        }
+        #header{
+            font-weight: bolder;
+            font-size: 3vmin;
+        }
+        p{
+            padding: 3%;
+            margin: 0;
+        }
+    }
+    
+}
+
+.controls{
+    display: none;
+}
+#mobileInfo{
+    display: none;
+}
+
+.player[data-direction="left"] .playerSprite img {
+    left: -100%;
+}
+.player[data-direction="up"] .playerSprite img {
+    left: -200%;
+}
+.player[data-direction="down"] .playerSprite img {
+    left: -300%;
+}
+.player[data-color="yellow"] .playerSprite img {
+    top: -100%;
+}
+.player[data-color="green"] .playerSprite img {
+    top: -200%;
+}
+.player[data-color="purple"] .playerSprite img {
+    top: -300%;
+}
+
+.laser[data-color="yellow"] img {
+    top: -100%;
+}
+.laser[data-color="green"] img {
+    top: -200%;
+}
+.laser[data-color="purple"] img {
+    top: -300%;
+}
+
+.laser[data-direction="vertical"] img {
+    left: -100%;
+}
+
+@keyframes fadeOut{
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+@keyframes arrowFade1 {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+@keyframes arrowFade2 {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+.stdButton{
+    border: 1px rgb(118, 117, 117) solid;
+    background-color: lightgray;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-radius: 3px;
+    font-size: inherit;
+}
+
+.stdButton:hover{
+    border-color:rgb(60, 60, 60);
+    background-color: rgb(170, 170, 170);
+}
+
+.stdBorder{
+    border: .3vw solid grey;
+    border-radius: 4px;
+}
+
+
+@media only screen and (max-height: 950px) and (orientation:portrait) {
+    #pcInfo{
+        display: none;
+    }
+
+    #gameWindow{
+        display: none;
+    }
+
+    #playerData{
+        display: none;
+    }
+
+    #mobileInfo{
+        display: block;
+        position: absolute;
+        z-index: 2;
+        left: 50%;
+        top: 50%;
+        width: 80vw;
+        height: 30vh;
+        font-size: xx-large;
+        transform: translate(-50%, -50%);
+        font-weight: bold;
+        border: 2px dashed black;
+        
+        p{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            text-align: center;
+            width: 100%;
+            margin: 0;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+
+@media only screen and (max-width: 950px) and (orientation:landscape) {
+    #pcInfo{
+        display: none;
+    }
+
+    #gameWindow{
+        margin: 1vw 0;
+        zoom: 0.75;
+    }
+    
+    #playerData{
+        position: absolute;
+        bottom: 2%;
+        left: 52%;
+        width: 33vw;
+        height: 25vh;
+        transform: translate(-50%);
+        flex-wrap: wrap;
+        justify-content: center;
+    
+        #respawnButton{
+            height: 10vh;
+            margin: 2vw 0 0 0;
+        }
+    }
+    
+    .controls{
+        display: block;
+        position: absolute;
+        width: 26%;
+        height: 36%;
+        // opacity: 0.8;
+        
+        button {
+            position: absolute;
+            width: 30%;
+            height: 45%;
+            font-size: 3vw;
+            border-radius: 6px;
+        }
+    }
+
+    .turnControls{
+        left: 0;
+        bottom: 0;
+        margin: 0 0 5px 5px;
+
+        .btnUp, .btnDown{
+            left: 35.2%;
+        }  
+        .btnLeft, .btnRight{
+            bottom: 25%;
+        }
+        .btnUp {
+            transform: rotate(-90deg);
+            top: 0%;
+        } 
+        .btnDown {
+            transform: rotate(90deg);
+            bottom: 0%;
+        }    
+        .btnLeft{
+            transform: rotate(180deg);
+            left:0%;
+        }
+        .btnRight{
+            right: 0%;
+        }
+    }
+
+    .actionControls{
+        display: block;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        margin: 0 5px 5px 0;
+
+        .btnUp, .btnDown{
+            left: 35.2%;
+        }  
+        .btnUp {
+            transform: rotate(-90deg);
+            top: 0%;
+        } 
+        .btnDown {
+            transform: rotate(90deg);
+            bottom: 0%;
+        }  
+        .btnFire{
+            right: 0;
+            bottom: 28%;
+        }
+    }
+}
